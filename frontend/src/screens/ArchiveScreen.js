@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import loads from "../data/loads";
+import axios from "axios";
 import Load from "../components/Load";
 
 export default function Archive() {
+  const [loads, setLoads] = useState([]);
+
+  useEffect(() => {
+    const fetchLoads = async () => {
+      const { data } = await axios.get("/api/loads");
+
+      setLoads(data);
+    };
+
+    fetchLoads();
+  }, []);
   return (
     <>
       <h1>All Deliveries</h1>

@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, ListGroup, Card } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import loads from "../data/loads";
+import axios from "axios";
 
 export default function SpecificLoadScreen() {
   const params = useParams();
-  const load = loads.find((l) => l._id === params.id);
+
+  const [load, setLoad] = useState({});
+
+  useEffect(() => {
+    const fetchLoads = async () => {
+      const { data } = await axios.get(`/api/loads/${params.id}`);
+
+      setLoad(data);
+    };
+
+    fetchLoads();
+  }, []);
   return (
     <Card>
       <Link className="btn btn-light rounded" to="/">
